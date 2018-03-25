@@ -1,82 +1,61 @@
-class Tape(object):
+from __future__ import print_function
 
-    blank_symbol = " "
+def tm(state = None, blank = None, rules = [], tape = [], halt = None, pos = 0):
+    st = state
 
-    def __init__(self, tape_string = ""):
-        self.__tape = dict((enumerate(tape_string)))
-        
-    def __str__(self):
-        result = ""
-        min_index = min(self.__tape.keys())
-        max_index = max(self.__tape.keys())
-        
-        for i in range(min_index, max_index):
-            result += self.__tape[i]
-        return result
+    if not tape:
+        tape = [blank]
+
+    if pos < 0:
+        pos += len(tape)
+
+    if pos >= len(tape) or pos < 0:
+        raise Error( "bad init position")
     
-    def __getitem__(self, index):
-        if index in self.__tape:
-            return self.__tape[index]
-        else:
-            return Tape.blank_symbol
-        
-    def __setitem__(self, pos, char):
-        self.__tape[pos] = char 
+    rules = dict(((s0, v0), (v1, dr, s1)) for (s0, v0, v1, dr, s1) in rules)
 
-class TuringMachine(object):
+    while True:
+        print(st, '\t', end=" ")
 
-    def __init__(self, tape = "", blank_symbol = " ", initial_state = "", final_states = None, transition_function = None):
-        self.__tape = Tape(tape)
-        self.__head_position = 0
-        self.__blank_symbol = blank_symbol
-        self.__current_state = initial_state
+        for i, v in enumerate(tape):
+            if i == pos:
+                print("[%s]" % (v,), end=" ")
+            else:
+                print(v, end=" ")
         
-        if transition_function == None:
-            self.__transition_function = {}
-        else:
-            self.__transition_function = transition_function
-            
-        if final_states == None:
-            self.__final_states = set()
-        else:
-            self.__final_states = set(final_states)
-            
-    def get_tape(self):
-        return str(self.__tape)
-    
-    def step(self):
-        char_under_head = self.__tape[self.__head_position]
-        x = (self.__current_state, char_under_head)
-        
-        if x in self.__transition_function:
-            y = self.__transition_function[x]
-            self.__tape[self.__head_position] = y[1]
-            
-            if y[2] == "R":
-                self.__head_position += 1
-            elif y[2] == "L":
-                self.__head_position -= 1
+        print()
+
+        if st == halt:
+            break
+
+        if (st, tape[pos]) not in rules:
+            break
+
+        (v1, dr, s1) = rules[(st, tape[pos])]
+        tape[pos] = v1
+
+        if dr == 'left':
+            if pos > 0:
+                pos -= 1
+            else:
+                tape.insert(0, blank)
                 
-            self.__current_state = y[0]
-            
-    def final(self):
-        if self.__current_state in self.__final_states:
-            return True
-        else:
-            return False
+        if dr == 'right':
+            pos += 1
+
+            if pos >= len(tape):
+                tape.append(blank) 
+                
+        st = s1
 
 
-initial_state = "init",
-accepting_states = ["final"],
-transition_function = {("init","0"):("init", "1", "R"), ("init","1"):("init", "0", "R"), ("init"," "):("final"," ", "N"),}
-final_states = {"final"}
+print("Increment Machine:")
+tm(halt = 'qf', state = 'q0', tape = list("111"), blank = 'B', rules = map(tuple, ["q0 1 1 right q0".split(), "q0 B 1 stay  qf".split()]))
 
-t = TuringMachine("010011 ", initial_state = "init", final_states = final_states, transition_function=transition_function)
-
-print("Input on Tape:\n" + t.get_tape())
-
-while not t.final():
-    t.step()
-
-print("Result of the Turing machine calculation:")    
-print(t.get_tape())
+print("Busy Beaver:")
+tm(halt = 'halt', state = 'a', blank = '0', rules = map(tuple, ["a 0 1 right b".split(),
+    "a 1 1 left  c".split(),
+    "b 0 1 left  a".split(),
+    "b 1 1 right b".split(),
+    "c 0 1 left  b".split(),
+    "c 1 1 stay  halt".split()]))
