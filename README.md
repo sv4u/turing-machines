@@ -2,7 +2,7 @@
 An exercise for me to write a Turing Machine interpreter in multiple languages.
 
 ## Languages
-- [ ] Python *(Note: implemented but not to my full liking)*
+- [x] Python
 - [x] C
 - [x] SML
 - [ ] Lisp
