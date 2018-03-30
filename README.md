@@ -6,7 +6,7 @@ An exercise for me to write a Turing Machine interpreter in multiple languages.
 - [x] C
 - [x] SML
 - [ ] Lisp
-- [ ] C++
+- [x] C++
 - [ ] Haskell
 - [ ] Racket
 - [ ] Go
