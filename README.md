@@ -5,7 +5,7 @@ An exercise for me to write a Turing Machine interpreter in multiple languages.
 - [x] Python
 - [x] C
 - [x] SML
-- [ ] Lisp
+- [x] Lisp *(Note: Iterative and Recursive)*
 - [x] C++
 - [ ] Haskell
 - [ ] Racket
