@@ -9,7 +9,7 @@ An exercise for me to write a Turing Machine interpreter in multiple languages.
 - [x] SML
 - [x] Lisp _(Note: Iterative and Recursive)_
 - [x] C++
-- [ ] Haskell
+- [x] Haskell
 - [x] Racket
 - [ ] Go
 
