@@ -10,7 +10,7 @@ An exercise for me to write a Turing Machine interpreter in multiple languages.
 - [x] Lisp _(Note: Iterative and Recursive)_
 - [x] C++
 - [ ] Haskell
-- [ ] Racket
+- [x] Racket
 - [ ] Go
 
 ## Example Turing Machines
