@@ -1,0 +1,1 @@
+data Move = MLeft | MRight | Stay deriving (Show, Eq)
