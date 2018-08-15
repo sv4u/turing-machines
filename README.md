@@ -11,7 +11,6 @@ An exercise for me to write a Turing Machine interpreter in multiple languages.
 - [x] C++
 - [x] Haskell
 - [x] Racket
-- [ ] Go
 
 ## Example Turing Machines
 
